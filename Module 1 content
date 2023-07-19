@@ -1,0 +1,1426 @@
+Write a c program to do optimized bubble sort.
+use the following logic to complete program
+Input: Array arr of size n
+passes = 0
+
+for i from 0 to n-1
+    flag = false
+
+    for j from 0 to n-i-1
+        if arr[j] > arr[j+1]
+            swap arr[j] and arr[j+1]
+            flag = true
+
+       if flag is false
+        break from the loop
+    else
+      for j from 0 to n:
+     print pass output arr[j]
+     
+ back to main loop
+
+TEST CASES:
+--------------------------------
+case=t1
+input=5
+2 1 3 4 5
+Pass 1: 1 2 3 4 5 
+output=
+Sorted array is:
+ 1 2 3 4 5 
+
+case=t2
+input=7
+34 21 67 45 123 43 89
+output=
+Pass 1: 21 34 45 67 43 89 123 
+Pass 2: 21 34 45 43 67 89 123 
+Pass 3: 21 34 43 45 67 89 123 
+Sorted array is:
+21 34 43 45 67 89 123 
+
+case=t3
+fail message="hidden test case with negative numbers size of array is 6"
+input=6
+23 -10 65 12 89 32
+Pass 1: -10 23 12 65 32 89 
+Pass 2: -10 12 23 32 65 89 
+output=Sorted array is:
+ -10 12 23 32 65 89 
+ 
+case=t4
+input=6
+3 1 6 8 10 56
+Pass 1: 1 3 6 8 10 56 
+output=
+Sorted array is:
+ 1 3 6 8 10 56 
+PROGRAM:
+-------------------------------
+#include <stdio.h>
+
+int main()
+{
+    int n, i, j, temp;
+    scanf("%d", &n);
+    int arr[n];
+    for (i = 0; i < n; i++)
+    {
+        scanf("%d", &arr[i]);
+    }
+
+    int flag;
+    for (i = 0; i < n - 1; i++)
+    {
+        flag = 0;
+        for (j = 0; j < n - i - 1; j++)
+        {
+            if (arr[j] > arr[j + 1])
+            {
+                
+                temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+                flag = 1;
+            }
+        }
+        if (flag == 0)
+            break;
+        printf("Pass %d: ", i + 1);
+        for (j = 0; j < n; j++)
+        {
+            printf("%d ", arr[j]);
+        }
+        printf("\n");
+    }
+
+    printf("Sorted array is:\n ");
+    for (i = 0; i < n; i++)
+    {
+        printf("%d ", arr[i]);
+    }
+
+    return 0;
+}
+
+2. Find the element in the array before which all the elements are smaller than it, and after 
+which all are greater than it.
+Return the index of the  first such element if at all there is such an element, otherwise, return No element found.
+
+Array size not more than 10.
+
+Test case example:
+---------------------------------------
+case=t1
+fail message="hidden test case"
+input=
+7
+2 1 3 4 6 5 10
+output=
+Index of the element: 2
+
+case=t2
+input=10
+2 1 3 4 5 7 12 45 78 10
+output=
+Index of the element: 2
+
+case=t3
+input=5
+1 2 5 4 8
+output=Index of the element: 1
+
+case=t4
+input=5
+10 2 2 3 1 0
+output=No such element found.
+
+case=t5
+fail message="hidden test case where size of array is 1"
+input=1
+1
+output=No such element found.
+
+
+PROGRAM:
+---------------------------------
+#include <stdio.h>
+
+int check(int arr[], int n, int ind) 
+{
+    int i = ind - 1;
+    int j = ind + 1;
+
+    while (i>= 0) 
+    {
+        if (arr[i] > arr[ind]) 
+        {
+            return 0;
+        }
+        i--;
+    }
+
+    while (j < n)
+    {
+        if (arr[j] < arr[ind]) 
+        {
+            return 0;
+        }
+        j++;
+    }
+
+    return 1;
+}
+
+int findElement(int arr[], int n) 
+{
+    for (int i = 1; i < n - 1; i++) 
+    {
+        if (check(arr, n, i))
+        {
+            return i;
+        }
+    }
+
+    return -1;
+}
+
+int main() 
+{
+    int n,i;
+    scanf("%d",&n);
+    int arr[n];
+    for(i=0;i<n;i++)
+    scanf("%d",&arr[i]);
+    int index = findElement(arr, n);
+    if(index!=-1)
+    printf("Index of the element: %d\n", index);
+    else
+    printf("No such element found");
+
+    return 0;
+}
+
+
+3. Given two sorted arrays nums1 and nums2 of size m and n respectively,
+return the median of the two sorted arrays.
+
+median is calculated as follows:
+The idea is to merge them into third array and there are two cases:
+
+Case 1: If the length of the merged array is odd, then the median is at (length)/2 index 
+Case 2: If the length of the merged array is even, then the median will be 
+        the average of elements at index ((length)/2 ) and ((length)/2 – 1) 
+
+condition: merged Array size not more than 20.
+
+Test case example:
+----------------------------------
+case=t1
+fail message="hidden test case"
+input=5
+2 4 6 7 8
+5
+1 2 6 9 10
+output=
+Merged Array: 
+1 2 2 4 6 6 7 8 9 10
+Median: 6
+
+case=t2
+input=6
+1 2 6 9 10 23
+4 
+1 2 3 4
+output=
+Merged Array: 
+1 1 2 2 3 4 6 9 10 23 
+Median: 3
+
+case=t3
+input=
+7
+3 7 8 12 45 67 89
+4
+34 67 78 120
+output=
+Merged Array: 
+3 7 8 12 34 45 67 67 78 89 120 
+Median: 45
+
+PROGRAM:
+-------------------------
+#include <stdio.h>
+
+int findmedian(int nums1[], int m, int nums2[], int n)
+{
+    int merged[m + n];
+    int i = 0, j = 0, k = 0;
+    while (i < m && j < n)
+    {
+        if (nums1[i] <= nums2[j]) 
+        {
+            merged[k++] = nums1[i++];
+        } else 
+        {
+            merged[k++] = nums2[j++];
+        }
+    }
+
+    while (i < m) 
+    {
+        merged[k++] = nums1[i++];
+    }
+
+    while (j < n)
+    {
+        merged[k++] = nums2[j++];
+    }
+    printf("Merged Array: \n");
+    for (int i = 0; i < k; i++)
+    {
+        printf("%d ", merged[i]);
+    }
+    int l=m+n;
+    int mid=l / 2;
+
+    if (l % 2 == 0) 
+    {
+        return (merged[mid- 1] + merged[mid]) / 2;
+    } else {
+        return merged[mid];
+    }
+}
+
+int main() 
+{
+    int m, n;
+
+   // printf("Enter the size of the first array: ");
+    scanf("%d", &m);
+
+    int arr1[m];
+    //printf("Enter the elements of the first array: ");
+    for (int i = 0; i < m; i++) {
+        scanf("%d", &arr1[i]);
+    }
+
+   // printf("Enter the size of the second array: ");
+    scanf("%d", &n);
+
+    int arr2[n];
+   // printf("Enter the elements of the second array: ");
+    for (int i = 0; i < n; i++)
+    {
+        scanf("%d", &arr2[i]);
+    }
+
+    int median = findmedian(arr1, m, arr2, n);
+    printf("\nMedian: %d\n", median);
+
+    return 0;
+}
+
+4.  Write a C program to Merge two Unsorted arrays into Ascending order 
+(Apply qsort function available in stdlib.h)
+
+Input format: enter size of array 1 followed by elements.
+similary size of array 2 and followed by elements.
+
+Condition: size of merged array not more than 20.
+
+Note: use the function definitions given below.
+
+Test case example:
+----------------------------
+case=t1
+input=5
+2 1 6 7 5
+7
+20 10 34 15 4 12 78
+output=
+Final Sorted array is: 
+1 2 4 5 6 7 10 12 15 20 34 78 
+
+case=t2
+fail message="hidden test case"
+input=
+7
+0 2 1 5 4 8 7
+4
+7 8 2 1
+output=
+Final Sorted array is:
+0 1 1 2 2 4 5 7 7 8 8 
+
+PROGRAM:
+------------------------------
+#include <stdio.h>
+#include<stdlib.h>
+
+int compare(const void* a, const void* b)
+{
+    return (*(int*)a - *(int*)b);
+}
+
+void mergeArrays(int a[], int b[], int res[], int n, int m) 
+{
+    // Sort arrays a and b
+    qsort(a, n, sizeof(int), compare);  //qsort O(nlogn)
+    qsort(b, m, sizeof(int), compare);
+
+    int i = 0, j = 0, k = 0;
+
+    while (i < n && j < m)
+    {
+        if (a[i] <= b[j])
+        {
+            res[k++] = a[i++];
+        } else 
+        {
+            res[k++] = b[j++];
+        }
+    }
+    while (i < n) {
+        res[k++] = a[i++];
+    }
+    while (j < m) {
+        res[k++] = b[j++];
+    }
+}
+
+int main() {
+    int n, m;
+
+    //printf("Enter the size of the first array: ");
+    scanf("%d", &n);
+    int a[n];
+
+   // printf("Enter the elements of the first array: ");
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &a[i]);
+    }
+
+   // printf("Enter the size of the second array: ");
+    scanf("%d", &m);
+    int b[m];
+
+    //printf("Enter the elements of the second array: ");
+    for (int i = 0; i < m; i++) {
+        scanf("%d", &b[i]);
+    }
+
+    int res[n + m];
+
+    mergeArrays(a, b, res, n, m);
+
+    printf("Final Sorted array is: \n");
+    for (int i = 0; i < n + m; i++) 
+    {
+        printf("%d ", res[i]);
+    }
+    return 0;
+}
+
+5. Binary insertion sort is a sorting algorithm similar to insertion sort,
+but instead of using linear search to find the position where the element should be inserted, 
+binary search is used. Thus, we reduce the number of comparisons for inserting elements.
+Write a C program to implement binary insertion sort.
+
+TEST CASES:
+-------------------------------
+case=t1
+input=5
+3 1 4 5 2
+output=
+Pass 1: 1 3 4 5 2 
+Pass 2: 1 3 4 5 2 
+Pass 3: 1 3 4 5 2 
+Pass 4: 1 2 3 4 5 
+final sorted array is:
+1 2 3 4 5 
+
+case=t2
+fail message="hidden test case"
+input=6
+-1 2 6 3 10 1 
+output=
+Pass 1: -1 2 6 3 10 1 
+Pass 2: -1 2 6 3 10 1 
+Pass 3: -1 2 3 6 10 1 
+Pass 4: -1 2 3 6 10 1 
+Pass 5: -1 1 2 3 6 10 
+final Sorted Array is:
+-1 1 2 3 6 10 
+
+/*Psuedo code for the implementation of the logic
+------------------------------------------------------
+
+function binarySearch(arr[], element, l, h):
+    m = (l + h) / 2
+
+    if (element == arr[m]):
+        return m + 1
+
+    if (h <= l):
+        if (element > arr[l]):
+            return (l + 1)
+        else:
+            return l
+
+    if (element > arr[m]):
+        return binarySearch(arr, element, m + 1, h)
+
+    return binarySearch(arr, element, l, m - 1)
+function insertionSort(arr[], num):
+    for i = 1 to num-1:
+        j = i - 1
+        select = arr[i]
+
+        position = binarySearch(arr, select, 0, j)
+        while (j >= position):
+            arr[j + 1] = arr[j]
+            j = j - 1
+        arr[j + 1] = select
+
+        print "Pass output "
+        for k = 0 to num:
+            print arr[k]
+        print new line
+  continue the loop
+*/
+
+PROGRAM:
+----------------------------------
+#include<stdio.h>
+int binarySearch(int arr[], int element, int l, int h)
+{
+    int m = (l + h) / 2;
+
+		if (element == arr[m])
+			return m + 1;
+		
+		if (h <= l)
+			if (element > arr[l]) 
+    			return (l + 1);
+			else
+    			return l;
+
+		if (element > arr[m])
+			return binarySearch(arr, element, m + 1, h);
+
+		return binarySearch(arr, element, l, m - 1);
+}
+
+void insertionSort(int arr[], int num)
+{
+	int i, j, k, select, position;
+
+		for (i = 1; i < num; i++)
+		{
+			j = i - 1;
+			select = arr[i];
+			position = binarySearch(arr, select, 0, j);
+			while (j >= position)
+			{
+				arr[j + 1] = arr[j];
+				j--;
+			}
+			arr[j + 1] = select;
+		printf("Pass %d: ", i);
+        for (k = 0; k < num; k++)
+        {
+            printf("%d ", arr[k]);
+        }
+        printf("\n");
+		}
+}
+
+int main()
+{
+    int n,i;
+    scanf("%d",&n);
+    int a[n];
+    for(i=0;i<n;i++)
+    {
+        scanf("%d",&a[i]);
+    }
+	insertionSort(a, n);
+	printf("final Sorted Array is:\n");
+	for (i = 0; i < n; i++)
+	printf("%d ",a[i]);
+	return 0;
+}
+
+6. Given a sorted array in ascending order and a value key, 
+the ceiling of key is the smallest element in array greater than or equal to key.
+Write a c program to find ceiling of a given key in the sorted array.
+
+Algorithm:
+------------------------
+findCeil(arr[], low, high, x)
+   Input Array arr[] with indices low and high, and element x to search
+   1. If x <= arr[low], return low as the ceil
+   2. loop from i = low to high:
+      a. If arr[i] == x, return i as the ceil 
+      b. If arr[i] < x and arr[i + 1] >= x, return i + 1 as the ceil
+   3. Return -1 to indicate that the ceil is not found in the array.   */
+
+
+TEST CASES:
+-------------------------
+case=t1
+fail message="hidden test case"
+input=6
+1 2 3 5 6 7
+4
+output=
+The ceiling of 4 is: 5
+
+
+case=t2
+input=7
+1 2 3 4 4 5 7
+7
+output=The ceiling of 7 is: 7
+
+case=t3
+input=1
+23
+10
+output=The ceiling of 10 is: 23
+
+case=t4
+input=6
+1 1 2 3 6 5
+0
+
+PROGRAM:
+-------------------------------------------
+#include <stdio.h>
+ 
+int findCeil(int arr1[], int low, int high, int x)
+{
+     int i;
+    if (x <= arr1[low])
+    return low;
+   for (i = low; i < high; i++)
+   {
+       if (arr1[i] == x)
+          return i;
+ 
+       if (arr1[i] < x && arr1[i + 1] >= x)
+           return i + 1;
+   }
+   return -1;
+}
+
+int main()
+{
+    int n,i;
+    scanf("%d", &n);
+    int arr[n];
+    for (i = 0; i < n; i++)
+    {
+        scanf("%d", &arr[i]);
+    }
+    int x;
+    scanf("%d",&x);
+    int index = findCeil(arr, 0, n-1, x);
+    if (index == -1)
+        printf("No ceiling for the number %d exists in array. ", x);
+    else
+        printf("The ceiling of %d is: %d", x, arr[index]);
+    return 0;
+}
+
+7. Pivot element is the only element in input array which is smaller than it's previous elements.
+A pivot element divides a sorted rotated array into two monotonically increasing array.
+Find such pivot element using recursive binary search.
+TEST CASES:
+----------------------------
+case=t1
+input=7
+4 5 6 7 1 2 3
+output=Pivot element is: 1
+
+case=t2
+fail message="hidden test case"
+input=5
+10 20 30 5 50
+output=Pivot element is: 5
+
+case=t3
+input=6
+100 80 70 17 20 30
+output=Pivot element is: 17
+
+case=t4
+input=1
+2
+output=Pivot element is: 2
+
+/*Psuedo code for the implementation of the logic
+------------------------------------------------------
+function findPivot(arr, low, high):
+    if high < low:
+        return arr[0]  // Empty or invalid array, return arr[0] as pivot
+
+    if high == low:
+        return arr[low]  // Only one element left, return arr[low] as pivot
+
+    mid = (low + high) / 2 
+    
+    if mid < high and arr[mid] > arr[mid + 1]:
+        return arr[mid + 1]                       // Check if mid + 1 is the pivot
+
+    if mid > low and arr[mid] < arr[mid - 1]:
+        return arr[mid]                           // Check if mid is the pivot
+
+    if arr[low] <= arr[mid]:
+        return findPivot(arr, mid + 1, high)      // Pivot is in the right half
+
+    return findPivot(arr, low, mid - 1)           // Pivot is in the left half
+
+
+PROGRAM:
+------------------------------------------
+#include<stdio.h>
+int findPivot(int arr[], int low, int high) 
+{
+    if (high < low) 
+    {
+        return arr[0];
+    }
+
+    // Only one element left
+    if (high == low)
+    {
+        return arr[low];
+    }
+
+    int mid = (low + high) / 2;
+
+    // Check if mid+1 is the pivot
+    if (mid < high && arr[mid] > arr[mid + 1]) 
+    {
+        return arr[mid + 1];
+    }
+
+    // Check if mid is the pivot
+    if (mid > low && arr[mid] < arr[mid - 1])
+    {
+        return arr[mid];
+    }
+
+    // Adjust low and high pointers
+    if (arr[low] <= arr[mid]) 
+    {
+        return findPivot(arr, mid + 1, high);
+    } else 
+    {
+        return findPivot(arr, low, mid - 1);
+    }
+}
+
+int main()
+{
+   int n,i;
+    scanf("%d", &n);
+    int arr[n];
+    for (i = 0; i < n; i++)
+    {
+        scanf("%d", &arr[i]);
+    }
+    int pivot = findPivot(arr, 0, n - 1);
+
+    printf("Pivot element is: %d\n", pivot);
+
+    return 0;
+}
+
+8. A peak element is an element that is strictly greater than its neighbors.
+Given a 0-indexed integer array(not greater than 20), find a peak element, and return its index. If the array contains multiple peaks.
+return the first index which matches criteria using binary search.
+TEST CASES:
+-----------------------
+case=t1
+input=4
+1 2 3 1
+output=Peak element index: 2
+
+case=t2
+fail message="hidden test case"
+input=5
+1 2 1 0 1
+output=Peak element index: 1
+
+case=t3
+input=1
+34
+output=Peak element index: 0
+
+case=t4
+input=6
+1 1 2 3 6 7
+output=Peak element index: 5
+
+/*Psuedo code for the implementation of the logic
+------------------------------------------------------
+function findPeakElement(nums[], n):
+    low = 0
+    high = n - 1
+    
+    while low < high:
+        mid = (low + high) / 2
+        
+        if nums[mid] > nums[mid + 1]:    // Current element probably a peak, continue searching in the left side of array
+            high = mid
+        else:
+            low = mid + 1                // Current element definitely not a peak, search in the right side
+    
+    return low                          //peak element is present at the low index
+
+
+PROGRAM:
+---------------------------------
+#include <stdio.h>
+
+int findPeakElement(int nums[], int n)
+{
+    int low = 0;
+    int high = n - 1;
+    
+    while (low < high)
+    {
+        int mid = (low + high) / 2;
+        
+        if (nums[mid] > nums[mid + 1]) 
+        {
+            high = mid;
+        } 
+        else 
+        {
+            low = mid + 1;
+        }
+    }
+    
+    return low;
+}
+
+int main() 
+{
+    int n,i;
+    scanf("%d", &n);
+    int arr[n];
+    for (i = 0; i < n; i++)
+    {
+        scanf("%d", &arr[i]);
+    }
+    int index = findPeakElement(arr, n);
+    printf("Peak element index: %d\n", index);
+
+    return 0;
+}
+
+9. Given a sorted array in ascending order and a value key, 
+the ceiling of key is the smallest element in array greater than or equal to key.
+Write a c program to find ceiling of a given key in the sorted array.
+
+TEST CASES:
+------------------------
+case=t1
+fail message="hidden test case"
+input=6
+1 2 3 5 6 7
+4
+output=
+The floor of 4 is: 3
+
+case=t2
+input=7
+1 2 3 4 4 5 7
+7
+output=The floor of 7 is: 7
+
+case=t3
+input=1
+23
+10
+output=No floor value for number 10 exists in the array
+
+case=t4
+input=6
+1 1 2 3 6 5
+0
+output=No floor value for number 0 exists in the array
+
+case=t5
+input=7
+1 2 3 5 7 8 10
+34
+output=The floor of 34 is: 10
+
+
+/*Pseudo code to implement the logic
+------------------------------------------
+function findFloor(arr, low, high, x):
+    if x < arr[low]:
+        return -1                // x is smaller than the smallest element in the array, return -1
+
+    if x >= arr[high]:
+        return high             // x is greater than or equal to the largest element in the array, return the last index
+
+    for i = low to high:
+        if arr[i] == x:
+            return i             // x is found in the array, return the index
+
+        if arr[i] < x and arr[i + 1] > x:
+            return i                                // x is between arr[i] and arr[i + 1], return the current index
+
+    return -1                                        // x is smaller than all elements in the array, return -1
+
+PROGRAM:
+-----------------------------------
+// Online C compiler to run C program online
+#include <stdio.h>
+
+int findFloor(int arr[], int low, int high, int x)
+{
+    if (x < arr[low]) 
+    {
+        return -1;  
+    }
+
+    if (x >= arr[high])
+    {
+        return high;  
+    }
+
+    for (int i = low; i < high; i++)
+    {
+        if (arr[i] == x) 
+        {
+            return i;  
+        }
+
+        if (arr[i] < x && arr[i + 1] > x) 
+        {
+            return i;
+        }
+    }
+
+    return -1;  
+}
+int main()
+{
+    int n,i;
+    scanf("%d", &n);
+    int arr[n];
+    for (i = 0; i < n; i++)
+    {
+        scanf("%d", &arr[i]);
+    }
+    int x;
+    scanf("%d",&x);
+    int index = findFloor(arr, 0, n-1, x);
+    if (index == -1)
+        printf("No floor value for number %d exists in the array. ", x);
+    else
+        printf("The floor of %d is: %d", x, arr[index]);
+    return 0;
+}
+
+10. Write a c program to implement counting sort
+Apply the following algorithm to implement the same.
+TEST CASES:
+-----------------------
+case=t1
+input=7
+45 32 12 89 53 12 67
+output=12 12 32 45 53 67 89 
+
+case=t2
+fail message="hidden case"
+input=5
+20 30 40 50 34
+output=20 30 34 40 50 
+
+case=t3
+input=5
+4 1 3 2 4
+output=1 2 3 4 4 
+
+ALGORITHM:
+---------------------------------
+CountingSort(array, n) 
+ find max element in the given array
+    B = new array with size n
+    C = new array with size max + 1
+    for i = 0 to max:
+        C[i] = 0
+    for j = 0 to n-1:
+        C[A[j]] = C[A[j]] + 1
+    for i = 1 to max:
+        C[i] = C[i] + C[i - 1]
+     for j = n - 1 to 0:
+        B[C[A[j]] - 1] = A[j]
+        C[A[j]] = C[A[j]] - 1
+    for i = 0 to n - 1:
+        print B[i] 
+
+Conditions: Array size not more than 10, Max value not more than 100
+
+PROGRAM:
+-----------------------------------
+#include<stdio.h>
+void counting_sort(int A[], int max, int n)
+{
+    int i, j;
+    int B[15], C[max];
+    
+    for (i = 0; i <= max; i++)
+        C[i] = 0;
+        
+    for (j = 0; j < n; j++)
+        C[A[j]] = C[A[j]] + 1;
+        
+    for (i = 1; i <= max; i++)
+        C[i] = C[i] + C[i-1];
+        
+    for (j = n-1; j >= 0; j--)
+    {
+        B[C[A[j]]-1] = A[j];
+        C[A[j]] = C[A[j]] - 1;
+    }
+    //printf("The Sorted array is : ");
+    for (i=0; i<n; i++)
+        printf("%d ", B[i]);
+}
+
+int main()
+{
+    int n, max = 0, A[15], i;
+    scanf("%d", &n);
+    for (i = 0; i < n; i++)
+    {
+        scanf("%d", &A[i]);
+        if (A[i] > max) 
+        {
+            max = A[i];
+        }
+    }
+    counting_sort(A, max, n);
+    return 0;
+}
+
+11.  Write a c program to implement radix sort
+
+TEST CASES:
+---------------------------------
+case=t1
+input=7
+45 32 12 89 53 12 67
+output=12 12 32 45 53 67 89 
+
+case=t2
+fail message="hidden case"
+input=5
+20 30 40 50 34
+output=20 30 34 40 50 
+
+case=t3
+input=5
+4 1 3 2 4
+output=1 2 3 4 4 
+
+apply the given algorithm below.
+----------------------------------
+ n, max = read n and initialize max as 0
+    a = new array with size n
+
+    for i = 0 to n-1:
+        a[i] = read element
+        if a[i] > max then
+            max = a[i]
+
+    call radixSort(a, max, n)
+
+    for i = 0 to n-1:
+        print a[i]
+end of main      
+radixSort(a,max,n)
+    place = 1
+    while max / place > 0 do
+        countingSort(a, n, place)
+        place *= 10
+end of radixsort
+
+countingSort(a,n,place)
+    output = new array with size n+1
+    c = new array with size 10, initialized to 0
+
+    for i = 0 to n-1:
+        c[(a[i] / place) % 10]++
+    for i = 1 to 9:
+        c[i] += c[i-1]
+
+    for i = n-1 to 0:
+        output[c[(a[i] / place) % 10] - 1] = a[i]
+        c[(a[i] / place) % 10]--
+
+    for i = 0 to n-1:
+        a[i] = output[i]
+end of counting sort*/
+
+PROGRAM:
+-----------------------------------
+#include<stdio.h>
+#include <stdio.h>  
+
+void countingSort(int a[], int n, int place) 
+{  
+  int output[n + 1];  
+  int c[10] = {0};    
+  
+  for (int i = 0; i < n; i++)  
+    c[(a[i] / place) % 10]++;  
+      
+  for (int i = 1; i < 10; i++)  
+    c[i] += c[i-1];  
+  
+  for (int i = n - 1; i >= 0; i--)
+  {  
+    output[c[(a[i] / place) % 10] - 1] = a[i];  
+    c[(a[i] / place) % 10]--;  
+  }  
+  
+  for (int i = 0; i < n; i++)  
+    a[i] = output[i];  
+    
+   
+}  
+  
+void radixsort(int a[], int max, int n)
+{  
+  for (int place = 1; max / place > 0; place *= 10)  
+    countingSort(a, n, place);  
+}  
+  
+int main() 
+{  
+    int n, max = 0, A[15], i;
+    scanf("%d", &n);
+    for (i = 0; i < n; i++)
+    {
+        scanf("%d", &A[i]);
+        if (A[i] > max) 
+        {
+            max = A[i];
+        }
+    }
+    radixsort(A, max, n);
+      for (int i = 0; i < n; ++i)
+  {  
+    printf("%d  ", A[i]);  
+  } 
+    return 0;
+}  
+
+12. Write a C program to implement quick sort with output of array after each 
+time the pivot element is replaced in each recursive call.
+Print the array output as per the array data in the recursive call.
+
+Consider first element in the array as pivot element.
+
+Sample test case:
+--------------------------------
+case=t1
+input=5
+3 1 8 4 5
+output=
+1 3 8 4 5 
+5 4 8 
+4 5 
+1 3 4 5 8 
+
+case=t2
+fail message="hidden case"
+input=7
+2 1 8 3 10 67 45
+output=1 2 8 3 10 67 45 
+3 8 10 67 45 
+10 67 45 
+45 67 
+1 2 3 8 10 45 67 
+
+case=t3
+input=4
+5 4 3 1
+output=
+1 4 3 5 
+1 4 3 
+3 4 
+1 3 4 5 
+
+Explaination: After the first iteration pivot element 5 is swapped with 1. so array data is: 1 4 3 5
+              After second iteration pivot element 1 is swapped with itself so output of array is: 1 4 3 (1st recursive call)
+              After the third iteration pivot element element 4 is swapped with 3 to get output as: 3 4 (2nd recursive call)
+As all the recursive calls reaches the base case condition, we will stop the program and print the final array data as: 1 3 4 5
+
+PROGRAM:
+---------------------------------------
+#include <stdio.h>
+void quicksort(int[], int, int);
+void printArray(int[],int, int);
+int main()
+{
+    int n, i, a[10];
+    scanf("%d", &n);
+    for (i = 0; i < n; i++)
+        scanf("%d", &a[i]);
+    quicksort(a, 0, n - 1);
+    printArray(a,0,n);
+}
+void quicksort(int a[], int left, int right)
+{
+    int pivot, temp, i, j;
+    if (left < right)
+    {
+        pivot = a[left];
+        i = left;
+        j = right;
+        while (i < j)
+        {
+            while (a[i] <= pivot && i <= right)
+                i++;
+            while (a[j] > pivot)
+                j--;
+            if (i < j)
+            {
+                temp = a[i];
+                a[i] = a[j];
+                a[j] = temp;
+            }
+        }
+        temp = a[left];
+        a[left] = a[j];
+        a[j] = temp;
+
+        printArray(a,left,right+1); 
+        
+        quicksort(a, left, j - 1);
+        quicksort(a, j + 1, right);
+    }
+}
+
+void printArray(int a[], int left,int n)
+{
+    for (int i = left; i <n; i++)
+        printf("%d ", a[i]);
+    printf("\n");
+}
+
+13.  Write a C program to implement quick sort by considering last element as pivot element.
+Apply the following algorithm:
+--------------------------------
+1. Read the value of n from input.
+2. Create a new array with size 10.
+3. For i = 0 to n - 1, do:
+     Read a[i] from input.
+4. Call the quicksort(a, 0, n - 1) function.
+5. For i = 0 to n - 1:
+     Print a[i].
+     
+6. quicksort(a, left, right):
+   If left < right, then:
+       Set pivot = partition(a, left, right).
+       Call quicksort(a, left, pivot - 1).
+       Call quicksort(a, pivot + 1, right).
+      
+7. partition(a, left, right):
+   Set pivot = a[right].
+   Set i = left - 1.
+   For j = left to right - 1:
+      If a[j] <= pivot, then:
+           Increment i by 1.
+           Swap a[i] and a[j].
+   Swap a[i + 1] and a[right].
+   Return i + 1.
+
+
+TEST CASES:
+-----------------------
+case=t1
+input=5
+3 1 8 4 5
+output=3 1 4 5 8 
+3 1 4 
+1 3 
+1 3 4 5 8 
+
+case=t2
+fail message="hidden case"
+input=7
+2 1 8 3 10 67 45
+output=
+2 1 8 3 10 45 67 
+2 1 8 3 10 
+2 1 3 8 
+1 2 
+1 2 3 8 10 45 67 
+
+case=t3
+input=4
+5 4 3 1
+output=
+1 4 3 5 
+4 3 5 
+3 4 
+1 3 4 5 
+
+PROGRAM:
+--------------------------
+#include <stdio.h>
+
+void quicksort(int[], int, int);
+int partition(int[], int, int);
+void printArray(int[],int,int);
+
+int main()
+{
+    int n, i, a[10];
+    scanf("%d", &n);
+    for (i = 0; i < n; i++)
+        scanf("%d", &a[i]);
+    quicksort(a, 0, n - 1);
+     printArray(a,0,n); 
+    return 0;
+}
+
+void quicksort(int a[], int left, int right)
+{
+    if (left < right)
+    {
+        int pivotIndex = partition(a, left, right);
+        
+        quicksort(a, left, pivotIndex - 1);
+        quicksort(a, pivotIndex + 1, right);
+    }
+}
+
+int partition(int a[], int left, int right)
+{
+    int pivot = a[right];
+    int i = left - 1;
+    for (int j = left; j <= right - 1; j++)
+    {
+        if (a[j] <= pivot)
+        {
+            i++;
+            int temp = a[i];
+            a[i] = a[j];
+            a[j] = temp;
+        }
+    }
+    int temp = a[i + 1];
+    a[i + 1] = a[right];
+    a[right] = temp;
+    
+    printArray(a,left,right+1); 
+    
+    return i + 1;
+}
+void printArray(int a[], int left,int n)
+{
+    for (int i = left; i <n; i++)
+        printf("%d ", a[i]);
+    printf("\n");
+}
+
+14. Write a c program to implement jump search. 
+
+ALgorithm:
+-----------------
+
+Input: enter sorted Array a[] of size n(not more than 20), and element to be searched
+1. Initialize i = 0
+2. Set the block size m = square root of n
+3. Repeat the following steps while a[m] <= item and m < n:
+     a. Update i to the current value of m and move to next block.
+     b. Increment m by the square root of n
+     c. If m exceeds the array size , return -1 to indicate the item is not found
+4. Perform a linear search within the current block from index i to m:
+     a. If array element equals item, return index position of the key
+     b. else continue to the next index.
+5. If the element is not found in the array, return -1
+
+Sample test case:
+----------------
+case=t1
+input=10
+1 4 6 7 89 100 200 450 890 1000
+450
+output=Element found at index: 7
+
+case=t2
+input=6
+1 2 3 4 5 6
+3
+output=Element found at index: 2
+
+case=t3
+input=4
+12 45 67 209
+89
+output=Element not found
+
+case=t4
+fail message="hidden test case"
+input=5
+3 6 9 12 34 
+67
+output=Element not found
+
+PROGRAM:
+---------------------------------------
+#include <stdio.h>
+#include <math.h>
+
+int jump_Search(int a[], int n, int item)
+{
+   int i = 0;
+   int m = sqrt(n); 
+   while (a[m] <= item && m < n)
+   { 
+      i = m; 
+      m += sqrt(n);
+      if (m > n - 1) 
+         return -1; 
+   }
+   for (int x = i; x < m; x++)
+   { 
+         if (a[x] == item)
+         return x;
+   }
+   return -1;
+}
+
+int main()
+{
+   int n, item, res;
+   scanf("%d", &n);
+   int arr[n]; 
+   for (int i = 0; i < n; i++) 
+   {
+      scanf("%d", &arr[i]);
+   }
+   scanf("%d", &item);
+   res = jump_Search(arr, n, item);
+   if (res!=-1)
+      printf("Element found at index: %d\n", res);
+   else
+      printf("Element not found\n");
+   
+   return 0;
+}
