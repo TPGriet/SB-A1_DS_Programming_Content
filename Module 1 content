@@ -1,4 +1,4 @@
-Write a c program to do optimized bubble sort.
+1. Write a c program to do optimized bubble sort.
 use the following logic to complete program
 Input: Array arr of size n
 passes = 0
@@ -55,6 +55,7 @@ Pass 1: 1 3 6 8 10 56
 output=
 Sorted array is:
  1 3 6 8 10 56 
+
 PROGRAM:
 -------------------------------
 #include <stdio.h>
