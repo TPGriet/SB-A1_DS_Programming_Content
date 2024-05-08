@@ -1,4 +1,6 @@
-1. Write a c program to check for palindrome using both stack and queue through linked list concept.
+1. Parallel Work for Palindrome:
+-------------------------------------------
+Write a c program to check for palindrome using both stack and queue through linked list concept.
 To solve this challenge, we must first take each character in a queue, and also push that same character onto a stack. 
 Once that's done, we must dequeue the first character from the queue and pop the top character off the stack, 
 then compare the two characters to see if they are the same; 
@@ -129,7 +131,9 @@ char dq()
     return ch;
 }
 
-2. Write a c program to remove consecutive duplicates from a given linked list.
+2.  Remove Duplicate Nodes from Unsorted SLL:
+--------------------------------------------
+Write a c program to remove consecutive duplicates from a given linked list.
 Use menu drive program as given below:
 1. Insert    2.Display Original List    3. List after removing duplicates    4.Exit
 
@@ -318,7 +322,9 @@ int main()
     return 0;
 }
 
-3. Write a c program to add individual digits of 2 given lists (A & B are 2 lists). (addition two be done from 0th position of both lists)
+3. Sum of Individual Nodes of two Separate Linked Lists:
+------------------------------------------
+Write a c program to add individual digits of 2 given lists (A & B are 2 lists). (addition two be done from 0th position of both lists)
   While adding if sum is greater than 10, add a carry 1 to the next subsequent sum of list elements.
   After adding all the elements, if there is still a carry left, create a new node and append to the final list.
   
@@ -1027,7 +1033,9 @@ int main()
     return 0;
 }
 
-6.  Write a C program to reverse alternative K nodes of linked list, keeping original list intact.
+6. Reverse Every Alternative K nodes of SLL
+------------------------------------------ 
+Write a C program to reverse alternative K nodes of linked list, keeping original list intact.
 U can copy the linked list to another list before reversing everytime.
 
 Use the following menu!!
