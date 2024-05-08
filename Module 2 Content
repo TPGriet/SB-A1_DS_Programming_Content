@@ -1,4 +1,6 @@
-1. 1.Consider an example of plates stacked over one another in the canteen. 
+1. Stack Operations:
+-------------------------------
+1.Consider an example of plates stacked over one another in the canteen. 
 The plate which is at the top is the first one to be removed, i.e., 
 the plate which has been placed at the bottommost position remains in the stack for the longest period. 
 So,it can be simply seen to follow LIFO (Last In First Out)/FILO(First In Last Out) order. 
@@ -117,7 +119,9 @@ void show()
 }
 
 
-2.Write a c program to find minimum element in the stack.(max size 4)
+2. Find Minimum Element In the Stack:
+-------------------------------------------
+Write a c program to find minimum element in the stack.(max size 4)
 Implement menu driven program to do the same:
 1.Push 2.Pop 3.Display 4.Find Min element 5.exit.
 
@@ -320,7 +324,9 @@ int main()
 
 }
 
-3.A queue is an abstract data type that maintains the order in which elements were added to it, 
+3.Queue Operations:
+------------------------------------
+A queue is an abstract data type that maintains the order in which elements were added to it, 
 allowing the oldest elements to be removed from the front and new elements to be added to the rear. 
 This is called a First-In-FirstOut (FIFO) data structure because the first element added to the queue 
 (i.e., the one that has been waiting the longest) is always the first one to be removed. 
@@ -514,7 +520,9 @@ void display()
         printf("\n\n");
 }
 
-4. A bracket is considered to be any one of the following characters: (, ), {, }, [, or ]. 
+4. Well Formed Paranthesis:
+--------------------------------------
+A bracket is considered to be any one of the following characters: (, ), {, }, [, or ]. 
 Two brackets are considered to be a well formed if the an opening bracket (i.e., (, [, or {)
 occurs to the left of a closing bracket (i.e., ), ], or }) of the exact same type.
 There are three types of matched pairs of brackets: [], {}, and ().
@@ -634,7 +642,9 @@ int main() {
 }
 
 
-5. Modify the previous program to include expression of the form.
+5. Above program with operands and operators:
+-------------------------------------------
+Modify the previous program to include expression of the form.
 for example: (a+b)*[1-2]+{b*c+d} and check if it is balanced or not.
 
 Sample test cases:
@@ -936,7 +946,9 @@ int getpriority(char op)
  return -1;
 }
 
-7.  A bracket is considered to be any one of the following characters: (, ), {, }, [, or ]. 
+7. Infix to Prefix Notation:
+--------------------------------------
+A bracket is considered to be any one of the following characters: (, ), {, }, [, or ]. 
 Two brackets are considered to be a well formed if the an opening bracket (i.e., (, [, or {)
 occurs to the left of a closing bracket (i.e., ), ], or }) of the exact same type.
 There are three types of matched pairs of brackets: [], {}, and ().
